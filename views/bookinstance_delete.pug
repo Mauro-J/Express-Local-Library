@@ -1,0 +1,33 @@
+extends layout
+
+block content
+
+  h1= title
+  
+  p #[strong Você realmente quer excluir esta instância de livro?]
+  
+  div(style="margin-left:20px")
+
+    p #[strong ID]: #{bookinstance._id}
+  
+    p #[strong Título:] 
+      a(href=bookinstance.book.url) #{bookinstance.book.title}
+    
+    p #[strong Editora:] #{bookinstance.imprint}
+
+    p #[strong Estado:] 
+      if bookinstance.status=='Available'
+        span.text-success #{bookinstance.status}
+      else if bookinstance.status=='Maintenance'
+        span.text-danger #{bookinstance.status}
+      else
+        span.text-warning #{bookinstance.status} 
+      
+    if bookinstance.status!='Available'
+      p #[strong Desde:] #{bookinstance.due_back_formatted}
+
+  form(method='POST' action='')
+    div.form-group
+      input#id.form-control(type='hidden',name='id', required='true', value=bookinstance._id )
+
+    button.btn.btn-primary(type='submit') Excluir
